@@ -1,0 +1,56 @@
+.sidebar-container {
+  height: 100%;
+  position: relative;
+}
+.barra-navegacao {
+  background-color: #000;
+  height: 100%;
+  width: 100%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  transition: width 0.5s;
+}
+.buttonMenu {
+  position: absolute;
+  transition: right 0.5s;
+  background-color: transparent;
+  border: none;
+}
+.buttonMenuExpanded {
+  right: 5%;
+}
+.buttonMenuCompressed {
+  right: 15%;
+}
+.buttonMenu:focus {
+  outline: none;
+}
+.barra-navegacao li {
+  padding: 15px;
+  padding-left: 30px;
+  color: #fff;
+}
+.barra-navegacao ul {
+  position: relative;
+  top: 35px;
+}
+.barra-navegacao li:hover {
+  background-color: white;
+  color: #000;
+  text-decoration: none;
+}
+.barra-navegacao a:link,
+.barra-navegacao a:visited,
+.barra-navegacao a:hover,
+.barra-navegacao a:active {
+  text-decoration: none !important;
+  color: #fff;
+}
+.icon {
+  color: #fff;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+.icon:hover {
+  color: #faebd7da;
+  transition: color 0.3s;
+}

@@ -1,0 +1,25 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+.base-container {
+  display: flex;
+  height: 100%;
+}
+.base-aside-expanded {
+  width: 15%;
+  transition: width 0.3s;
+}
+.base-aside-compressed {
+  width: 5%;
+  transition: width 0.3s;
+}
+.base-main {
+  flex: 5;
+  overflow-y: scroll;
+  padding-left: 70px;
+  padding-top: 40px;
+  padding-right: 70px;
+  justify-content: center;
+}
