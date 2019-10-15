@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./style.css";
+import { useDispatch } from "react-redux";
 import Title from "../../../commons/components/title/title";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useSelector, useDispatch } from "react-redux";
+import ModalScreenShot from "../components/ModalScreenshot";
+import FileField from "../../../commons/components/fields/FileField";
 
 const JogoForm = () => {
   const [jogo, setJogo] = useState({
@@ -20,58 +21,13 @@ const JogoForm = () => {
 
   const dispatch = useDispatch();
 
-  const [arquivo, setArquivo] = useState({
-    nome: "Capa do jogo"
-  });
-
-  const [componenteScreenshot, setComponentScreenshot] = useState([
-    <div className="form-group col-md-12">
-      <div className="custom-file">
-        <input
-          type="file"
-          className="custom-file-input"
-          id="imagem"
-          accept="image/*"
-          onChange={setNomeArquivo}
-        />
-        <label className="custom-file-label" htmlFor="customFile">
-          {arquivo.nome}
-        </label>
-      </div>
-    </div>
-  ]);
-
   const [modal, setModal] = useState({
     openedModal: false
   });
 
-  function setNomeArquivo(event) {
-    if (event.target.files[0]) setArquivo({ nome: event.target.files[0].name });
-  }
-
   function toggleModal(event) {
     event.preventDefault();
     setModal({ openedModal: !modal.openedModal });
-  }
-  function adicionarNovoComponente(event) {
-    event.preventDefault();
-    setComponentScreenshot([
-      ...componenteScreenshot,
-      <div className="form-group col-md-12">
-        <div className="custom-file">
-          <input
-            type="file"
-            className="custom-file-input"
-            id="imagem"
-            accept="image/*"
-            onChange={setNomeArquivo}
-          />
-          <label className="custom-file-label" htmlFor="customFile">
-            {arquivo.nome}
-          </label>
-        </div>
-      </div>
-    ]);
   }
 
   function onSubmit(event) {
@@ -201,18 +157,7 @@ const JogoForm = () => {
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    id="imagemCapa"
-                    accept="image/*"
-                    onChange={setNomeArquivo}
-                  />
-                  <label className="custom-file-label" htmlFor="customFile">
-                    {arquivo.nome}
-                  </label>
-                </div>
+                <FileField label="Capa do Jogo" />
               </div>
               <div className="form-group col-md-4 openModal">
                 <a href="/#" onClick={toggleModal}>
@@ -223,32 +168,7 @@ const JogoForm = () => {
             <button type="submit" className="btn btn-primary">
               Enviar
             </button>
-
-            {/* modal */}
-            <div>
-              <Modal isOpen={modal.openedModal}>
-                <ModalHeader toggle={toggleModal}>Screenshots</ModalHeader>
-                <ModalBody>
-                  {componenteScreenshot.map(
-                    componenteScreenshot => componenteScreenshot
-                  )}
-                  <div
-                    className="form-group col-md-6"
-                    onClick={adicionarNovoComponente}
-                  >
-                    <a href="/#">incluir outra imagem</a>
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  <button color="primary" onClick={toggleModal}>
-                    Salvar
-                  </button>{" "}
-                  <button color="secondary" onClick={toggleModal}>
-                    Cancelar
-                  </button>
-                </ModalFooter>
-              </Modal>
-            </div>
+            <ModalScreenShot isOpen={modal.openedModal} toggle={toggleModal} />
           </form>
         </div>
       </div>
