@@ -16,7 +16,7 @@ const menus = [
     icon: <FaHome />
   },
   {
-    to: "#",
+    to: "/jogos",
     label: "Jogos Cadastrados",
     icon: <FaGamepad />
   },
@@ -45,7 +45,10 @@ const SideBar = props => {
             : "buttonMenuCompressed"
         }`}
         onClick={() =>
-          dispatcher({ type: "MENU_ACTION", menuState: !props.menuState })
+          dispatcher({
+            type: "TOGGLE_MENU",
+            menuState: !props.menuState
+          })
         }
       >
         {props.menuState.openedMenu ? (

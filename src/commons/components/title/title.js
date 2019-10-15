@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-export default props => (
+const Title = props => (
   <div>
     <div className="card title">
       <div className="card-body">
@@ -10,3 +10,5 @@ export default props => (
     </div>
   </div>
 );
+
+export default Title;

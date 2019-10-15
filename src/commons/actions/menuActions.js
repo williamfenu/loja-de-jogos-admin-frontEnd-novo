@@ -1,5 +1,5 @@
 const menuAction = menuState => ({
-  type: "MENU_ACTION",
+  type: "TOGGLE_MENU",
   openedMenu: menuState
 });
 

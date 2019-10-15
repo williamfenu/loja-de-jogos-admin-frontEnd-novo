@@ -3,7 +3,7 @@ const initialState = {
 };
 
 const menuReducer = (state = initialState, action) => {
-  if (action.type === "MENU_ACTION") {
+  if (action.type === "TOGGLE_MENU") {
     const newState = { openedMenu: !state.openedMenu };
     return newState;
   }

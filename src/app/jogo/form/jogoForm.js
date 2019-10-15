@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import Title from "../../../commons/components/title/title";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
 
 const JogoForm = () => {
   const [jogo, setJogo] = useState({
@@ -17,11 +18,13 @@ const JogoForm = () => {
     linkVideo: ""
   });
 
+  const dispatch = useDispatch();
+
   const [arquivo, setArquivo] = useState({
     nome: "Capa do jogo"
   });
 
-  const [screenshots, setScreenshots] = useState([
+  const [componenteScreenshot, setComponentScreenshot] = useState([
     <div className="form-group col-md-12">
       <div className="custom-file">
         <input
@@ -52,8 +55,8 @@ const JogoForm = () => {
   }
   function adicionarNovoComponente(event) {
     event.preventDefault();
-    setScreenshots([
-      ...screenshots,
+    setComponentScreenshot([
+      ...componenteScreenshot,
       <div className="form-group col-md-12">
         <div className="custom-file">
           <input
@@ -69,6 +72,12 @@ const JogoForm = () => {
         </div>
       </div>
     ]);
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    dispatch({ type: "SAVE_JOGO_REQUEST", jogo });
+    limparCampos();
   }
 
   function limparCampos() {
@@ -92,7 +101,7 @@ const JogoForm = () => {
       <Title label="Cadastrar Jogo" />
       <div className="card">
         <div className="card-body">
-          <form>
+          <form onSubmit={onSubmit} encType="multipart/form-data">
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="inputNome">Nome</label>
@@ -164,9 +173,9 @@ const JogoForm = () => {
                 <select
                   id="inputPlataforma"
                   className="form-control"
-                  value={jogo.plataforma}
+                  value={jogo.classificacaoEtaria}
                   onChange={e =>
-                    setJogo({ ...jogo, plataforma: e.target.value })
+                    setJogo({ ...jogo, classificacaoEtaria: e.target.value })
                   }
                 >
                   <option defaultValue>selecione...</option>
@@ -214,12 +223,15 @@ const JogoForm = () => {
             <button type="submit" className="btn btn-primary">
               Enviar
             </button>
+
             {/* modal */}
             <div>
               <Modal isOpen={modal.openedModal}>
-                <ModalHeader toggle={toggleModal}>Modal title</ModalHeader>
+                <ModalHeader toggle={toggleModal}>Screenshots</ModalHeader>
                 <ModalBody>
-                  {screenshots.map(screenShot => screenShot)}
+                  {componenteScreenshot.map(
+                    componenteScreenshot => componenteScreenshot
+                  )}
                   <div
                     className="form-group col-md-6"
                     onClick={adicionarNovoComponente}
