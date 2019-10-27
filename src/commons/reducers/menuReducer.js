@@ -3,11 +3,13 @@ const initialState = {
 };
 
 const menuReducer = (state = initialState, action) => {
-  if (action.type === "TOGGLE_MENU") {
-    const newState = { openedMenu: !state.openedMenu };
-    return newState;
+  switch (action.type) {
+    case "TOGGLE_MENU":
+      return { openedMenu: !state.openedMenu };
+
+    default:
+      return state;
   }
-  return state;
 };
 
 export default menuReducer;

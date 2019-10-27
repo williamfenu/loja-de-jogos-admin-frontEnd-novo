@@ -2,8 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import Home from "./app/home/home";
-import jogoForm from "./app/jogo/form/jogoForm";
-import jogoLista from "./app/jogo/jogoLista";
+import JogoForm from "./app/jogo/form/JogoForm";
+import JogoLista from "./app/jogo/lista/JogoLista";
+import ProdutoraForm from "./app/produtora/form/ProdutoraForm";
+import ProdutoraLista from "./app/produtora/lista/ProdutoraList";
 
 import "./assets/css/reset.css";
 import "./assets/bootstrap/css/bootstrap.min.css";
@@ -17,8 +19,10 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path="/" component={Home}></Route>
-          <Route path="/jogos/form" component={jogoForm}></Route>
-          <Route path="/jogos" component={jogoLista}></Route>
+          <Route path="/jogo/novo" component={JogoForm}></Route>
+          <Route path="/jogos" component={JogoLista}></Route>
+          <Route path="/produtora/novo" component={ProdutoraForm}></Route>
+          <Route path="/produtoras" component={ProdutoraLista}></Route>
         </Switch>
       </App>
     </Router>

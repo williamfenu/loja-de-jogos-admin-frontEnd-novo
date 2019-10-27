@@ -1,21 +1,35 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { types as fileInputComponentTypes } from "../../../commons/actions/fileInputComponentActions";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import FileField from "../../../commons/components/fields/FileField";
 
-const ScreenShotField = () => (
-  <div className="form-group col-md-12">
-    <FileField label="Screenshot" />
-  </div>
-);
-
 const ModalScreenshoot = props => {
-  const [componenteScreenshot, setComponentScreenshot] = useState([
-    <ScreenShotField />
+  const [componentesScreenshot, setComponentScreenshot] = useState([
+    <FileField label="screenshot" />
   ]);
+  const dispatch = useDispatch();
+  const store = useSelector(state => state);
 
   function adicionarNovoComponente(event) {
     event.preventDefault();
-    setComponentScreenshot([...componenteScreenshot, <ScreenShotField />]);
+    setComponentScreenshot([
+      ...componentesScreenshot,
+      <FileField label="screenshot" />
+    ]);
+  }
+
+  function onSave(event) {
+    props.toggle(event);
+    dispatch({
+      type: fileInputComponentTypes.ADD_SCREENSHOTS,
+      fileField: componentesScreenshot
+    });
+  }
+
+  function onCancel(event) {
+    props.toggle(event);
+    setComponentScreenshot(store.fileInputComponents);
   }
 
   return (
@@ -23,9 +37,11 @@ const ModalScreenshoot = props => {
       <Modal isOpen={props.isOpen}>
         <ModalHeader toggle={props.toggle}>Screenshots</ModalHeader>
         <ModalBody>
-          {componenteScreenshot.map(
-            componenteScreenshot => componenteScreenshot
-          )}
+          {componentesScreenshot.map((componenteScreenshot, index) => (
+            <div className="form-group col-md-12" key={index}>
+              {componenteScreenshot}
+            </div>
+          ))}
           <div
             className="form-group col-md-6"
             onClick={adicionarNovoComponente}
@@ -34,10 +50,10 @@ const ModalScreenshoot = props => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button color="primary" onClick={props.toggle}>
+          <button color="primary" onClick={onSave}>
             Salvar
           </button>{" "}
-          <button color="secondary" onClick={props.toggle}>
+          <button color="secondary" onClick={onCancel}>
             Cancelar
           </button>
         </ModalFooter>

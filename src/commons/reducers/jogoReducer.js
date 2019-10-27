@@ -1,15 +1,16 @@
-const initialState = {
-  jogos: ""
-};
+const initialState = {};
 
 const jogoReducer = (state = initialState, action) => {
-  if (action.type === "GET_JOGOS_SUCCESS") {
-    return { ...state, jogos: [...action.payload.data] };
+  switch (action.type) {
+    case "GET_JOGOS_SUCCESS":
+      return [...action.payload.data];
+
+    case "SAVE_JOGO_SUCCESS":
+      return { ...state };
+
+    default:
+      return state;
   }
-  if (action.type === "SAVE_JOGO_SUCCESS") {
-    return { ...state };
-  }
-  return state;
 };
 
 export default jogoReducer;

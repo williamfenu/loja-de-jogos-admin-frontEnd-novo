@@ -54,3 +54,18 @@
   color: #faebd7da;
   transition: color 0.3s;
 }
+.link {
+  cursor: pointer;
+}
+.personalizedDropdown {
+  right: 13px;
+}
+.personalizedDropdownToggle {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.link:hover .personalizedDropdownToggle svg {
+  background-color: white !important;
+  color: black !important;
+}

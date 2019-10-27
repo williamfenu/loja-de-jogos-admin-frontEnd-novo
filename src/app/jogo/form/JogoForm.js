@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { useDispatch } from "react-redux";
-import Title from "../../../commons/components/title/title";
+import Title from "../../../commons/components/title/Title";
 import ModalScreenShot from "../components/ModalScreenshot";
 import FileField from "../../../commons/components/fields/FileField";
 
@@ -103,7 +103,7 @@ const JogoForm = () => {
             <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="inputProdutora">Produtora</label>
-                <input
+                <select
                   type="text"
                   value={jogo.produtora}
                   onChange={e =>
@@ -111,8 +111,9 @@ const JogoForm = () => {
                   }
                   className="form-control"
                   id="inputProdutora"
-                  placeholder="ex: Rockstar"
-                />
+                >
+                  <option defaultValue>selecione...</option>
+                </select>
               </div>
               <div className="form-group col-md-4">
                 <label htmlFor="inputData">Data de Lançamento</label>
@@ -166,7 +167,7 @@ const JogoForm = () => {
               </div>
             </div>
             <button type="submit" className="btn btn-primary">
-              Enviar
+              Salvar
             </button>
             <ModalScreenShot isOpen={modal.openedModal} toggle={toggleModal} />
           </form>
