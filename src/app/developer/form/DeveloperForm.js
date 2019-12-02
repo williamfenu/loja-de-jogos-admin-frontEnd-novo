@@ -1,22 +1,31 @@
 import React, { useState } from "react";
 import Title from "../../../commons/components/title/Title";
+import rest from "../../../commons/service/rest";
 
-const ProdutoraForm = () => {
-  const [produtora, setProdutora] = useState({ nome: "" });
+const developerRest = rest("developers");
+
+const DeveloperForm = () => {
+  const [developer, setDeveloper] = useState({ name: "" });
+
+  const saveDevelopers = event => {
+    event.preventDefault();
+    developerRest.post(developer);
+    setDeveloper({ name: "" });
+  };
 
   return (
     <div className="container">
       <Title label="Cadastrar Produtora" />
       <div className="card">
         <div className="card-body">
-          <form>
+          <form onSubmit={saveDevelopers}>
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="inputNome">Nome</label>
                 <input
                   type="text"
-                  value={produtora.nome}
-                  onChange={e => setProdutora({ nome: e.target.value })}
+                  value={developer.name}
+                  onChange={e => setDeveloper({ name: e.target.value })}
                   className="form-control"
                   id="inputNome"
                   placeholder="ex: Rockstar"
@@ -33,4 +42,4 @@ const ProdutoraForm = () => {
   );
 };
 
-export default ProdutoraForm;
+export default DeveloperForm;

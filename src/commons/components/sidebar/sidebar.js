@@ -88,6 +88,18 @@ const SideBar = props => {
     setCollapse({ [name]: !collapse[name] });
   };
 
+  const handleSidebar = () => {
+    resetSidebarCollapse();
+    dispatcher({
+      type: "TOGGLE_MENU",
+      openedMenu: !props.menuState
+    });
+  };
+
+  const resetSidebarCollapse = () => {
+    setCollapse({ Jogos: false, Produtoras: false });
+  };
+
   return (
     <div className="sidebar-container">
       <button
@@ -97,12 +109,7 @@ const SideBar = props => {
             ? "buttonMenuExpanded"
             : "buttonMenuCompressed"
         }`}
-        onClick={() =>
-          dispatcher({
-            type: "TOGGLE_MENU",
-            openedMenu: !props.menuState
-          })
-        }
+        onClick={handleSidebar}
       >
         {props.menuState.openedMenu ? (
           <FaArrowLeft className="icon" />
@@ -132,6 +139,7 @@ const SideBar = props => {
                 </React.Fragment>
               ) : (
                 <li
+                  key={menu.id}
                   className="link"
                   onMouseOver={() => setDropdown({ [menu.label]: true })}
                   onMouseLeave={() => setDropdown({ [menu.label]: false })}

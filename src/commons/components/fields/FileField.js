@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 
 const FileField = props => {
-  const [arquivo, setArquivo] = useState({
-    nome: props.label
+  const [file, setFile] = useState({
+    name: props.label
   });
 
-  function setNomeArquivo(event) {
-    if (event.target.files[0]) setArquivo({ nome: event.target.files[0].name });
+  function setFileName(event) {
+    if (event.target.files[0]) {
+      setFile({ name: event.target.files[0].name });
+    }
+    props.onChangeImage(event.target.files[0], clearFields);
+  }
+
+  function clearFields() {
+    setFile({ name: "" });
   }
 
   return (
     <div className="custom-file">
       <input
         type="file"
+        name={props.name}
         className="custom-file-input"
-        id="imagemCapa"
-        accept="image/*"
-        onChange={setNomeArquivo}
+        id={props.id}
+        accept={props.accept}
+        onChange={setFileName}
       />
-      <label className="custom-file-label" htmlFor="customFile">
-        {arquivo.nome}
+      <label className="custom-file-label" htmlFor={props.id}>
+        {file.name}
       </label>
     </div>
   );

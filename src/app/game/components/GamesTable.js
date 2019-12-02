@@ -9,15 +9,20 @@ export default props => {
           <tr>
             <th>#</th>
             <th>Nome</th>
+            <th>Plataforma</th>
+            <th>Preço</th>
+            <th>Produtora</th>
           </tr>
         </thead>
         <tbody>
-          {props.produtoras &&
-            props.produtoras.length > 0 &&
-            props.produtoras.map((produtoras, index) => (
-              <tr key={produtoras.id}>
+          {props.games &&
+            props.games.map((game, index) => (
+              <tr key={game.id}>
                 <th scope="row">{index + 1}</th>
-                <td>{produtoras.nome}</td>
+                <td>{game.name}</td>
+                <td>{game.platform}</td>
+                <td>{game.price}</td>
+                <td>{game.developer.name}</td>
               </tr>
             ))}
         </tbody>
