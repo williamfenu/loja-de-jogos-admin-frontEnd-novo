@@ -34,7 +34,6 @@ const ModalScreenshoot = props => {
 
   return (
     <div>
-      {console.log("renderizou")}
       <Modal isOpen={props.isOpen}>
         <ModalHeader toggle={props.toggle}>Screenshots</ModalHeader>
         <ModalBody>
