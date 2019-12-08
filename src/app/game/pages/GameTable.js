@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Title from "../../../commons/components/title/Title";
 import { useSelector, useDispatch } from "react-redux";
-import GamesTable from "../components/GamesTable";
+import GamesTable from "../components/Table";
 import { types as gameTypes } from "../../../commons/actions/gameActions";
 import rest from "../../../commons/service/rest";
 
 const gameRest = rest("games");
 
-const GameList = () => {
+const GameTable = () => {
   const [loading, setLoading] = useState(true);
   const games = useSelector(state => state.games);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
     gameRest
       .get()
       .then(games => {
@@ -31,4 +30,4 @@ const GameList = () => {
   );
 };
 
-export default GameList;
+export default GameTable;

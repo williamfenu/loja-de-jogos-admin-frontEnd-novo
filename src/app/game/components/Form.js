@@ -53,7 +53,7 @@ const platforms = [
   },
   {
     id: 2,
-    value: "XBOX",
+    value: "XBOXONE",
     label: "Xbox One"
   },
   {
@@ -134,7 +134,7 @@ const Form = props => {
         <div className="form-group col-md-6">
           <FileField
             label="Capa do Jogo"
-            onChangeImage={props.handleChangeImage}
+            onChangeImage={props.handleUploadCover}
             accept="image/*"
           />
         </div>
@@ -150,6 +150,7 @@ const Form = props => {
       <ModalScreenShot
         isOpen={props.modal.openedModal}
         toggle={props.toggleModal}
+        onChangeImage={props.handleUploadScreenshots}
       />
     </form>
   );

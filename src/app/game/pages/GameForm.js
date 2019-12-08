@@ -9,10 +9,12 @@ import Form from "../components/Form";
 
 const developersRest = rest("developers");
 const uploadRest = rest("upload/cover");
+const screenShotsRest = rest("upload/screenshots");
 const gameRest = rest("games");
 
 const GameForm = () => {
   const developers = useSelector(state => state.developers);
+  const [screenshots, setScreenshots] = useState([]);
   const [game, setGame] = useState({
     name: "",
     platform: "",
@@ -21,8 +23,6 @@ const GameForm = () => {
     developer: { id: "" },
     releaseDate: "",
     description: "",
-    coverImagePath: "",
-    screenshots: "",
     linkVideo: ""
   });
   const dispatch = useDispatch();
@@ -45,14 +45,14 @@ const GameForm = () => {
         })
       )
       .catch(error => console.log(error));
-  }, [dispatch]);
+  }, []);
 
   function toggleModal(event) {
     event.preventDefault();
     setModal({ openedModal: !modal.openedModal });
   }
 
-  function handleChangeImage(file, clearFunc) {
+  function handleUploadCover(file, clearFunc) {
     const reader = new FileReader();
     reader.onload = () =>
       setImage({
@@ -63,16 +63,42 @@ const GameForm = () => {
     reader.readAsDataURL(file);
   }
 
+  function handleUploadScreenshots(file, clearFunc) {
+    const reader = new FileReader();
+    reader.onload = () =>
+      setScreenshots(screenshots => [
+        ...screenshots,
+        {
+          filename: file.name,
+          data: reader.result,
+          clearField: clearFunc
+        }
+      ]);
+    reader.readAsDataURL(file);
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
-    const response = await uploadRest.post(image);
     const formatedGame = Object.assign({}, game, {
-      releaseDate: dataConverter.toJson(game.releaseDate),
-      coverImagePath: response.headers.get("location")
+      releaseDate: dataConverter.toJson(game.releaseDate)
     });
-    delete formatedGame.screenshots;
-    gameRest.post(formatedGame);
-    clearFields();
+    // if (image.filename) {
+    //   const response = await uploadRest.post(image);
+    //   formatedGame.coverImagePath = response.headers.get("location");
+    // }
+    if (screenshots) {
+      const response = await screenShotsRest
+        .post(screenshots)
+        .then(resp => resp.json())
+        .then(json => json);
+
+      console.log(response);
+    }
+    // gameRest.post(formatedGame);
+    // clearFields();
+    // if (image.clearField) {
+    //   image.clearField();
+    // }
   }
 
   function clearFields() {
@@ -85,10 +111,13 @@ const GameForm = () => {
       developer: { id: "" },
       releaseDate: "",
       description: "",
-      screenshots: "",
       linkVideo: ""
     });
-    image.clearField();
+    setImage({
+      filename: "",
+      data: "",
+      clearField: ""
+    });
   }
 
   return (
@@ -102,7 +131,8 @@ const GameForm = () => {
             game={game}
             setGame={setGame}
             onSubmit={onSubmit}
-            handleChangeImage={handleChangeImage}
+            handleUploadCover={handleUploadCover}
+            handleUploadScreenshots={handleUploadScreenshots}
             toggleModal={toggleModal}
           />
         </div>

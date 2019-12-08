@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Title from "../../../commons/components/title/Title";
 import { useSelector, useDispatch } from "react-redux";
-import DevelopersTable from "../components/DevelopersTable";
+import DevelopersTable from "../components/Table";
 import rest from "../../../commons/service/rest";
 
 const developerRest = rest("developers");
 
-const DeveloperList = () => {
+const DeveloperTable = () => {
   const [loading, setLoading] = useState(true);
   const developers = useSelector(state => state.developers);
   const dispatch = useDispatch();
@@ -33,4 +33,4 @@ const DeveloperList = () => {
   );
 };
 
-export default DeveloperList;
+export default DeveloperTable;

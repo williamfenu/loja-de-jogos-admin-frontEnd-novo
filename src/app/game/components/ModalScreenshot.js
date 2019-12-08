@@ -6,7 +6,7 @@ import FileField from "../../../commons/components/fields/FileField";
 
 const ModalScreenshoot = props => {
   const [componentesScreenshot, setComponentScreenshot] = useState([
-    <FileField label="screenshot" />
+    <FileField label="screenshot" onChangeImage={props.onChangeImage} />
   ]);
   const dispatch = useDispatch();
   const store = useSelector(state => state);
@@ -15,7 +15,7 @@ const ModalScreenshoot = props => {
     event.preventDefault();
     setComponentScreenshot([
       ...componentesScreenshot,
-      <FileField label="screenshot" />
+      <FileField label="screenshot" onChangeImage={props.onChangeImage} />
     ]);
   }
 
@@ -34,6 +34,7 @@ const ModalScreenshoot = props => {
 
   return (
     <div>
+      {console.log("renderizou")}
       <Modal isOpen={props.isOpen}>
         <ModalHeader toggle={props.toggle}>Screenshots</ModalHeader>
         <ModalBody>
@@ -50,10 +51,10 @@ const ModalScreenshoot = props => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button color="primary" onClick={onSave}>
+          <button className="btn btn-primary" onClick={onSave}>
             Salvar
           </button>{" "}
-          <button color="secondary" onClick={onCancel}>
+          <button className="btn btn-secondary" onClick={onCancel}>
             Cancelar
           </button>
         </ModalFooter>

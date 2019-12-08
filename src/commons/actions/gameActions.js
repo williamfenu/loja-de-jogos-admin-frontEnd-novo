@@ -8,7 +8,6 @@ export const getGames = () => ({
 });
 
 export const saveGame = games => {
-  console.log("entrou aqui");
   return {
     type: types.SAVE_GAMES,
     games

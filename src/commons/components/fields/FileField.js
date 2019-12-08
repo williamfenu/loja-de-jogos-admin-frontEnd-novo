@@ -8,8 +8,8 @@ const FileField = props => {
   function setFileName(event) {
     if (event.target.files[0]) {
       setFile({ name: event.target.files[0].name });
+      props.onChangeImage(event.target.files[0], clearFields);
     }
-    props.onChangeImage(event.target.files[0], clearFields);
   }
 
   function clearFields() {

@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import Home from "./app/home/home";
-import GameForm from "./app/game/form/GameForm";
-import GameTable from "./app/game/table/GameTable";
-import DeveloperForm from "./app/developer/form/DeveloperForm";
-import DeveloperTable from "./app/developer/table/DeveloperTable";
+import GameForm from "./app/game/pages/GameForm";
+import GameTable from "./app/game/pages/GameTable";
+import DeveloperForm from "./app/developer/pages/DeveloperForm";
+import DeveloperTable from "./app/developer/pages/DeveloperTable";
 
 import "./assets/css/reset.css";
 import "./assets/bootstrap/css/bootstrap.min.css";
