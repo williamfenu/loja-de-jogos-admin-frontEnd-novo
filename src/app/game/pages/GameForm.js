@@ -14,7 +14,7 @@ const gameRest = rest("games");
 
 const GameForm = () => {
   const developers = useSelector(state => state.developers);
-  const [screenshots, setScreenshots] = useState([]);
+  const [screenshotsImages, setScreenshots] = useState([]);
   const [game, setGame] = useState({
     name: "",
     platform: "",
@@ -45,7 +45,7 @@ const GameForm = () => {
         })
       )
       .catch(error => console.log(error));
-  }, []);
+  }, [dispatch]);
 
   function toggleModal(event) {
     event.preventDefault();
@@ -66,8 +66,8 @@ const GameForm = () => {
   function handleUploadScreenshots(file, clearFunc) {
     const reader = new FileReader();
     reader.onload = () =>
-      setScreenshots(screenshots => [
-        ...screenshots,
+      setScreenshots(screenshotsOldState => [
+        ...screenshotsOldState,
         {
           filename: file.name,
           data: reader.result,
@@ -82,23 +82,22 @@ const GameForm = () => {
     const formatedGame = Object.assign({}, game, {
       releaseDate: dataConverter.toJson(game.releaseDate)
     });
-    // if (image.filename) {
-    //   const response = await uploadRest.post(image);
-    //   formatedGame.coverImagePath = response.headers.get("location");
-    // }
-    if (screenshots) {
+    if (image.filename) {
+      const response = await uploadRest.post(image);
+      formatedGame.coverImagePath = response.headers.get("location");
+    }
+    if (screenshotsImages) {
       const response = await screenShotsRest
-        .post(screenshots)
+        .post(screenshotsImages)
         .then(resp => resp.json())
         .then(json => json);
-
-      console.log(response);
+      const screenshotsLinks = [];
+      response.map(response => screenshotsLinks.push(response.link));
+      formatedGame.screenshots = screenshotsLinks;
     }
-    // gameRest.post(formatedGame);
-    // clearFields();
-    // if (image.clearField) {
-    //   image.clearField();
-    // }
+    gameRest.post(formatedGame);
+    clearFields();
+    if (image.clearField) image.clearField();
   }
 
   function clearFields() {
