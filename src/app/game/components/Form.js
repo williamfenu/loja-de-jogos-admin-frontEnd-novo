@@ -1,5 +1,4 @@
 import React from "react";
-import ModalScreenShot from "../components/ModalScreenshot";
 import FileField from "../../../commons/components/fields/FileField";
 import TextField from "./InputField";
 import SelectField from "./SelectField";
@@ -133,7 +132,9 @@ const Form = props => {
       <div className="form-row">
         <div className="form-group col-md-6">
           <FileField
-            label="Capa do Jogo"
+            label={
+              props.coverInputLabel ? props.coverInputLabel : "Capa do Jogo"
+            }
             onChangeImage={props.handleUploadCover}
             accept="image/*"
           />
@@ -147,11 +148,6 @@ const Form = props => {
       <button type="submit" className="btn btn-primary">
         Salvar
       </button>
-      <ModalScreenShot
-        isOpen={props.modal.openedModal}
-        toggle={props.toggleModal}
-        onChangeImage={props.handleUploadScreenshots}
-      />
     </form>
   );
 };

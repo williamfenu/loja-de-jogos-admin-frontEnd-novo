@@ -1,35 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { types as fileInputComponentTypes } from "../../../commons/actions/fileInputComponentActions";
+import { types as fileFieldTypes } from "../../../commons/actions/fileFieldActions";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import FileField from "../../../commons/components/fields/FileField";
+import update from "immutability-helper";
+
+let localId = 1;
 
 const ModalScreenshoot = props => {
-  const [componentesScreenshot, setComponentScreenshot] = useState([
-    <FileField label="screenshot" onChangeImage={props.onChangeImage} />
+  const { clearModal } = props;
+  const [fileFieldComponents, setFileFieldComponents] = useState([
+    { id: "", label: "", filename: "" }
   ]);
   const dispatch = useDispatch();
   const store = useSelector(state => state);
 
-  function adicionarNovoComponente(event) {
+  useEffect(() => {
+    setFileFieldComponents(store.fileFields);
+  }, [store.fileFields]);
+
+  useEffect(() => {
+    clearModal(() => clearFields);
+  }, []);
+
+  function setFileName(event, id) {
+    if (event.target.files[0]) {
+      const indexComponent = fileFieldComponents.findIndex(
+        component => component.id === id
+      );
+      const newData = update(fileFieldComponents[indexComponent], {
+        filename: { $set: event.target.files[0].name }
+      });
+      const updatedArray = update(fileFieldComponents, {
+        $splice: [[indexComponent, 1, newData]]
+      });
+      setFileFieldComponents(updatedArray);
+      props.onChangeImage(event.target.files[0], id);
+    }
+  }
+
+  const clearFields = () => {
+    dispatch({ type: "CLEAN_FIELDS" });
+  };
+
+  function addNewComponent(event) {
     event.preventDefault();
-    setComponentScreenshot([
-      ...componentesScreenshot,
-      <FileField label="screenshot" onChangeImage={props.onChangeImage} />
+    setFileFieldComponents([
+      ...fileFieldComponents,
+      { id: localId, label: "screenshot" }
     ]);
+    localId++;
   }
 
   function onSave(event) {
     props.toggle(event);
-    dispatch({
-      type: fileInputComponentTypes.ADD_SCREENSHOTS,
-      fileField: componentesScreenshot
-    });
+    const filteredFileFieldComponents = fileFieldComponents.filter(
+      fileFieldComponents => !!fileFieldComponents.filename
+    );
+
+    if (filteredFileFieldComponents.length) {
+      dispatch({
+        type: fileFieldTypes.ADD_SCREENSHOTS,
+        fileFields: filteredFileFieldComponents
+      });
+    } else {
+      clearFields();
+    }
   }
 
   function onCancel(event) {
     props.toggle(event);
-    setComponentScreenshot(store.fileInputComponents);
+    setFileFieldComponents(store.fileFields);
   }
 
   return (
@@ -37,15 +78,20 @@ const ModalScreenshoot = props => {
       <Modal isOpen={props.isOpen}>
         <ModalHeader toggle={props.toggle}>Screenshots</ModalHeader>
         <ModalBody>
-          {componentesScreenshot.map((componenteScreenshot, index) => (
-            <div className="form-group col-md-12" key={index}>
-              {componenteScreenshot}
+          {fileFieldComponents.map(componenteScreenshot => (
+            <div className="form-group col-md-12" key={componenteScreenshot.id}>
+              <FileField
+                label={
+                  componenteScreenshot.filename
+                    ? componenteScreenshot.filename
+                    : componenteScreenshot.label
+                }
+                fieldId={componenteScreenshot.id}
+                onChangeImage={setFileName}
+              />
             </div>
           ))}
-          <div
-            className="form-group col-md-6"
-            onClick={adicionarNovoComponente}
-          >
+          <div className="form-group col-md-6" onClick={addNewComponent}>
             <a href="/#">incluir outra imagem</a>
           </div>
         </ModalBody>

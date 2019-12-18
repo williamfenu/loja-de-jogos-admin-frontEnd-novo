@@ -6,6 +6,8 @@ import Title from "../../../commons/components/title/Title";
 import { dataConverter } from "../../../utils/dataConverter";
 import rest from "../../../commons/service/rest";
 import Form from "../components/Form";
+import ModalScreenShot from "../components/ModalScreenshot";
+import update from "immutability-helper";
 
 const developersRest = rest("developers");
 const uploadRest = rest("upload/cover");
@@ -28,12 +30,12 @@ const GameForm = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState({
     filename: "",
-    data: "",
-    clearField: ""
+    data: ""
   });
   const [modal, setModal] = useState({
     openedModal: false
   });
+  const [clearModalFunction, setClearModalFunction] = useState("");
 
   useEffect(() => {
     developersRest
@@ -52,30 +54,51 @@ const GameForm = () => {
     setModal({ openedModal: !modal.openedModal });
   }
 
-  function handleUploadCover(file, clearFunc) {
-    const reader = new FileReader();
-    reader.onload = () =>
-      setImage({
-        filename: file.name,
-        data: reader.result,
-        clearField: clearFunc
-      });
-    reader.readAsDataURL(file);
+  function handleUploadCover(event) {
+    if (event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage({
+          filename: file.name,
+          data: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
-  function handleUploadScreenshots(file, clearFunc) {
+  const handleUploadScreenshots = (file, id) => {
+    let imageIndex = "";
+    if (screenshotsImages.length) {
+      imageIndex = screenshotsImages.findIndex(image => image.id === id);
+    }
     const reader = new FileReader();
-    reader.onload = () =>
-      setScreenshots(screenshotsOldState => [
-        ...screenshotsOldState,
-        {
-          filename: file.name,
-          data: reader.result,
-          clearField: clearFunc
-        }
-      ]);
+
+    reader.onload = () => {
+      if (imageIndex !== "" && imageIndex >= 0) {
+        const newData = update(screenshotsImages[imageIndex], {
+          file: { filename: { $set: file.name }, data: { $set: reader.result } }
+        });
+        const newArray = update(screenshotsImages, {
+          $splice: [[imageIndex, 1, newData]]
+        });
+        setScreenshots(newArray);
+      } else {
+        setScreenshots(screenshotsOldState => [
+          ...screenshotsOldState,
+          {
+            file: {
+              filename: file.name,
+              data: reader.result
+            },
+            id
+          }
+        ]);
+      }
+    };
     reader.readAsDataURL(file);
-  }
+  };
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -86,9 +109,13 @@ const GameForm = () => {
       const response = await uploadRest.post(image);
       formatedGame.coverImagePath = response.headers.get("location");
     }
-    if (screenshotsImages) {
+    if (screenshotsImages.length) {
+      let arrayOfScreenshots = [];
+      screenshotsImages.map(screenshot =>
+        arrayOfScreenshots.push(screenshot.file)
+      );
       const response = await screenShotsRest
-        .post(screenshotsImages)
+        .post(arrayOfScreenshots)
         .then(resp => resp.json())
         .then(json => json);
       const screenshotsLinks = [];
@@ -97,10 +124,9 @@ const GameForm = () => {
     }
     gameRest.post(formatedGame);
     clearFields();
-    if (image.clearField) image.clearField();
   }
 
-  function clearFields() {
+  const clearFields = () => {
     setGame({
       ...game,
       name: "",
@@ -114,10 +140,14 @@ const GameForm = () => {
     });
     setImage({
       filename: "",
-      data: "",
-      clearField: ""
+      data: ""
     });
-  }
+    clearModalFunction();
+  };
+
+  const clearModal = clearModalFunction => {
+    setClearModalFunction(clearModalFunction);
+  };
 
   return (
     <div className="container">
@@ -126,13 +156,18 @@ const GameForm = () => {
         <div className="card-body">
           <Form
             developers={developers}
-            modal={modal}
             game={game}
+            coverInputLabel={image.filename}
             setGame={setGame}
             onSubmit={onSubmit}
             handleUploadCover={handleUploadCover}
-            handleUploadScreenshots={handleUploadScreenshots}
             toggleModal={toggleModal}
+          />
+          <ModalScreenShot
+            isOpen={modal.openedModal}
+            clearModal={clearModal}
+            toggle={toggleModal}
+            onChangeImage={handleUploadScreenshots}
           />
         </div>
       </div>

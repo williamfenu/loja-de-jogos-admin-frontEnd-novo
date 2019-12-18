@@ -1,21 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const FileField = props => {
-  const [file, setFile] = useState({
-    name: props.label
-  });
-
-  function setFileName(event) {
-    if (event.target.files[0]) {
-      setFile({ name: event.target.files[0].name });
-      props.onChangeImage(event.target.files[0], clearFields);
-    }
-  }
-
-  function clearFields() {
-    setFile({ name: "" });
-  }
-
   return (
     <div className="custom-file">
       <input
@@ -24,10 +9,10 @@ const FileField = props => {
         className="custom-file-input"
         id={props.id}
         accept={props.accept}
-        onChange={setFileName}
+        onChange={event => props.onChangeImage(event, props.fieldId)}
       />
       <label className="custom-file-label" htmlFor={props.id}>
-        {file.name}
+        {props.label}
       </label>
     </div>
   );
