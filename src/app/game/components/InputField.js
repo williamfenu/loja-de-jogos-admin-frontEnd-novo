@@ -6,6 +6,8 @@ const InputField = props => {
       <label htmlFor={props.id}>{props.label}</label>
       <input
         type="text"
+        ref={props.validation}
+        name={props.name}
         value={props.value}
         onChange={e => props.onChange(e)}
         className="form-control"

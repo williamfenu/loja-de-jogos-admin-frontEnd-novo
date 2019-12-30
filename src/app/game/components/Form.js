@@ -5,6 +5,7 @@ import SelectField from "./SelectField";
 import NumberField from "./NumberField";
 import DateField from "./DateField";
 import TextAreaField from "./TextAreaField";
+import useForm from "react-hook-form";
 
 const ESRB = [
   {
@@ -63,11 +64,14 @@ const platforms = [
 ];
 
 const Form = props => {
+  const { register, handleSubmit } = useForm();
   return (
-    <form onSubmit={props.onSubmit} encType="multipart/form-data">
+    <form onSubmit={handleSubmit(props.onSubmit)} encType="multipart/form-data">
       <div className="form-row">
         <TextField
           sizeColum={6}
+          validation={register({ required: true })}
+          name="name"
           label="Nome"
           value={props.game.name}
           onChange={e => props.setGame({ ...props.game, name: e.target.value })}
@@ -76,6 +80,8 @@ const Form = props => {
         <SelectField
           label="Plataforma"
           sizeColum={3}
+          validation={register({ required: true })}
+          name="platform"
           value={props.game.platform}
           onChange={e =>
             props.setGame({ ...props.game, platform: e.target.value })
@@ -85,6 +91,7 @@ const Form = props => {
         <NumberField
           label="Preço"
           sizeColum={3}
+          name="price"
           value={props.game.price}
           onChange={e =>
             props.setGame({ ...props.game, price: e.target.value })
@@ -96,6 +103,8 @@ const Form = props => {
       </div>
       <div className="form-row">
         <SelectField
+          validation={register({ required: true })}
+          name="developer"
           label="Produtora"
           sizeColum={4}
           value={props.game.developer.id}

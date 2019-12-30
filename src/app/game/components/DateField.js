@@ -7,6 +7,8 @@ const DateField = props => {
       <input
         type="date"
         className="form-control"
+        ref={props.validation}
+        name={props.name}
         id={props.id}
         value={props.value}
         onChange={e => props.onChange(e)}

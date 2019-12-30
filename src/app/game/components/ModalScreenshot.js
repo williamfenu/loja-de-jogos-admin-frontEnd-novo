@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { types as fileFieldTypes } from "../../../commons/actions/fileFieldActions";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -15,13 +15,19 @@ const ModalScreenshoot = props => {
   const dispatch = useDispatch();
   const store = useSelector(state => state);
 
+  const clearFields = useCallback(() => {
+    dispatch({ type: "CLEAN_FIELDS" });
+  }, [dispatch]);
+
   useEffect(() => {
     setFileFieldComponents(store.fileFields);
   }, [store.fileFields]);
 
-  useEffect(() => {
-    clearModal(() => clearFields);
-  }, []);
+  useEffect(
+    useCallback(() => {
+      clearModal(() => clearFields);
+    }, [clearModal, clearFields])
+  );
 
   function setFileName(event, id) {
     if (event.target.files[0]) {
@@ -38,10 +44,6 @@ const ModalScreenshoot = props => {
       props.onChangeImage(event.target.files[0], id);
     }
   }
-
-  const clearFields = () => {
-    dispatch({ type: "CLEAN_FIELDS" });
-  };
 
   function addNewComponent(event) {
     event.preventDefault();

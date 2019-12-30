@@ -23,13 +23,13 @@ const submenus = {
   jogo: [
     {
       id: 1,
-      to: "/jogos",
+      to: "/app/jogos",
       label: "Jogos Cadastrados",
       icon: <FaGamepad />
     },
     {
       id: 2,
-      to: "/jogo/novo",
+      to: "/app/jogo/novo",
       label: "Cadastrar Jogo",
       icon: <FaListAlt />
     }
@@ -37,13 +37,13 @@ const submenus = {
   produtora: [
     {
       id: 3,
-      to: "/produtoras",
+      to: "/app/produtoras",
       label: "Produtoras Cadastradas",
       icon: <FaBuilding />
     },
     {
       id: 4,
-      to: "/produtora/novo",
+      to: "/app/produtora/novo",
       label: "Cadastrar Produtoras",
       icon: <FaBuilding />
     }
@@ -53,7 +53,7 @@ const submenus = {
 const menus = [
   {
     id: 1,
-    to: "/",
+    to: "/app",
     label: "home",
     icon: <FaHome />
   },
@@ -73,7 +73,7 @@ const menus = [
 
   {
     id: 4,
-    to: "#",
+    to: "/login",
     label: "Sair",
     icon: <MdExitToApp />
   }

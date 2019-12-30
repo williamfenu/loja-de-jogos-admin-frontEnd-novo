@@ -20,7 +20,7 @@ const GameForm = () => {
   const [game, setGame] = useState({
     name: "",
     platform: "",
-    price: 0,
+    price: "",
     ESRB: "",
     developer: { id: "" },
     releaseDate: "",
@@ -100,8 +100,7 @@ const GameForm = () => {
     reader.readAsDataURL(file);
   };
 
-  async function onSubmit(event) {
-    event.preventDefault();
+  async function onSubmit(data) {
     const formatedGame = Object.assign({}, game, {
       releaseDate: dataConverter.toJson(game.releaseDate)
     });
@@ -131,7 +130,7 @@ const GameForm = () => {
       ...game,
       name: "",
       platform: "",
-      price: 0,
+      price: "",
       ESRB: "",
       developer: { id: "" },
       releaseDate: "",

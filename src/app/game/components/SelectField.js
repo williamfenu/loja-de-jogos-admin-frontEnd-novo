@@ -6,11 +6,13 @@ const SelectField = props => {
       <label htmlFor={props.id}>{props.label}</label>
       <select
         id={props.id}
+        ref={props.validation}
+        name={props.name}
         className="form-control"
         value={props.value}
         onChange={e => props.onChange(e)}
       >
-        <option defaultValue>selecione...</option>
+        <option value="">selecione...</option>
         {props.mapping && props.customizedMapping
           ? props.mapping.map(mapping => (
               <option

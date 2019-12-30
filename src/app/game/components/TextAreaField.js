@@ -7,6 +7,8 @@ const TextAreaField = props => {
       <textarea
         className="form-control"
         value={props.value}
+        ref={props.validation}
+        name={props.name}
         onChange={e => props.onChange(e)}
         id={props.id}
         rows={props.rows}

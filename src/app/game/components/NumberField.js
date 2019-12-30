@@ -8,6 +8,8 @@ const NumberField = props => {
         type="number"
         value={props.value}
         onChange={e => props.onChange(e)}
+        ref={props.validation}
+        name={props.name}
         id={props.id}
         step={props.step}
         min={props.min}
