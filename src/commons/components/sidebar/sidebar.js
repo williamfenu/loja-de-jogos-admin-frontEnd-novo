@@ -100,6 +100,10 @@ const SideBar = props => {
     setCollapse({ Jogos: false, Produtoras: false });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
+
   return (
     <div className="sidebar-container">
       <button
@@ -162,6 +166,10 @@ const SideBar = props => {
                   </Dropdown>
                 </li>
               )
+            ) : menu.label === "Sair" ? (
+              <Link key={menu.id} onClick={handleLogout} to={menu.to}>
+                <li>{props.menuState.openedMenu ? menu.label : menu.icon}</li>
+              </Link>
             ) : (
               <Link key={menu.id} to={menu.to}>
                 <li>{props.menuState.openedMenu ? menu.label : menu.icon}</li>

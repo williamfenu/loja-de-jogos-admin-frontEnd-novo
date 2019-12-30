@@ -6,6 +6,7 @@ const loginRest = rest("login");
 
 const Login = props => {
   const [login, setLogin] = useState({ username: "", password: "" });
+  const [invalidPassword, setInvalidPassword] = useState(false);
   const { register, handleSubmit } = useForm();
 
   const handleLogin = async () => {
@@ -18,28 +19,37 @@ const Login = props => {
           props.history.push("/app");
         })
         .catch(error => console.log(error));
+    } else {
+      setInvalidPassword(true);
     }
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <label htmlFor="username">nome</label>
-      <input
-        name="username"
-        id="username"
-        ref={register({ required: true })}
-        onChange={e => setLogin({ ...login, username: e.target.value })}
-      ></input>
-      <label htmlFor="password">Senha</label>
-      <input
-        name="password"
-        type="password"
-        id="password"
-        ref={register({ required: true })}
-        onChange={e => setLogin({ ...login, password: e.target.value })}
-      ></input>
-      <button onClick={handleSubmit(handleLogin)}>Entrar</button>
+      <form>
+        <label htmlFor="username">nome</label>
+        <input
+          name="username"
+          autoComplete="username"
+          id="username"
+          ref={register({ required: true })}
+          onChange={e => setLogin({ ...login, username: e.target.value })}
+        ></input>
+        <label htmlFor="password">Senha</label>
+        <input
+          name="password"
+          autoComplete="current-password"
+          type="password"
+          id="password"
+          ref={register({ required: true })}
+          onChange={e => setLogin({ ...login, password: e.target.value })}
+        ></input>
+        <button onClick={handleSubmit(handleLogin)}>Entrar</button>
+      </form>
+      <span hidden={!invalidPassword} style={{ color: "red" }}>
+        Usuário ou senha inválidos
+      </span>
     </div>
   );
 };
