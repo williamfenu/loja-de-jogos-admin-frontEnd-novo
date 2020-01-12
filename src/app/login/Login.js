@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import useForm from "react-hook-form";
 import rest from "../../commons/service/rest";
 import "./styles.css";
@@ -9,6 +9,13 @@ const Login = props => {
   const [login, setLogin] = useState({ username: "", password: "" });
   const [invalidPassword, setInvalidPassword] = useState(false);
   const { register, handleSubmit } = useForm();
+
+  //It was instead useEffect because the login component was rendering before go to the app page causing a "blink" effect
+  useLayoutEffect(() => {
+    if (localStorage.getItem("token")) {
+      props.history.push("/app");
+    }
+  }, [props]);
 
   const handleLogin = async () => {
     const response = await loginRest.post(login);
@@ -53,7 +60,7 @@ const Login = props => {
             onChange={e => setLogin({ ...login, password: e.target.value })}
           ></input>
           <button
-            className="btn btn-primary button"
+            className="btn btn-dark button"
             onClick={handleSubmit(handleLogin)}
           >
             Entrar

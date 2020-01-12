@@ -21,7 +21,11 @@ ReactDOM.render(
       <Switch>
         <Route path="/login" component={Login} />
         <PrivateRoute path="/app" component={App} />
-        <Redirect from="/" to="/login" />
+        {localStorage.getItem("token") ? (
+          <Redirect from="/" to="/app" />
+        ) : (
+          <Redirect from="/" to="/login" />
+        )}
       </Switch>
     </Router>
   </Provider>,
