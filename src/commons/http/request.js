@@ -1,4 +1,5 @@
 import fetchIntercept from "fetch-intercept";
+// import { Redirect } from "react-routes-dom";
 
 fetchIntercept.register({
   request: function(url, config) {
@@ -13,6 +14,13 @@ fetchIntercept.register({
   },
 
   response: function(response) {
+    if (
+      response.status === 401 ||
+      (window.location.pathname !== "/login" && !localStorage.getItem("token"))
+    ) {
+      localStorage.removeItem("token");
+      window.location = "/login";
+    }
     // Modify the reponse object
     return response;
   },
