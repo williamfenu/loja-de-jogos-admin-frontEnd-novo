@@ -9,7 +9,7 @@ import DeveloperForm from "./app/developer/pages/DeveloperForm";
 import DeveloperTable from "./app/developer/pages/DeveloperTable";
 import { Route, Switch } from "react-router-dom";
 
-function App(props) {
+function App() {
   const menuState = useSelector(state => state.menuState);
   return (
     <div className="base-container">
@@ -23,6 +23,7 @@ function App(props) {
       <main className="base-main">
         <Switch>
           <Route path="/app/jogo/novo" component={GameForm} />
+          <Route path="/app/jogo/:id" component={GameForm} />
           <Route path="/app/jogos" component={GameTable} />
           <Route path="/app/produtora/novo" component={DeveloperForm} />
           <Route path="/app/produtoras" component={DeveloperTable} />

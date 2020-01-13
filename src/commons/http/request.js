@@ -35,9 +35,7 @@ export default {
   get: url =>
     new Promise(async (resolve, reject) => {
       try {
-        const resp = await fetch(url, { headers: {} })
-          .then(response => response.json())
-          .then(json => json);
+        const resp = await fetch(url, { headers: {}, method: "get" });
         resolve(resp);
       } catch (error) {
         reject(error);
@@ -52,6 +50,30 @@ export default {
           method: "post",
           body: JSON.stringify(object)
         });
+        resolve(resp);
+      } catch (error) {
+        reject(error);
+      }
+    }),
+
+  put: (url, object) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const resp = await fetch(url, {
+          headers: { "Content-Type": "application/json" },
+          method: "put",
+          body: JSON.stringify(object)
+        });
+        resolve(resp);
+      } catch (error) {
+        reject(error);
+      }
+    }),
+
+  delete: url =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const resp = await fetch(url, { headers: {}, method: "delete" });
         resolve(resp);
       } catch (error) {
         reject(error);

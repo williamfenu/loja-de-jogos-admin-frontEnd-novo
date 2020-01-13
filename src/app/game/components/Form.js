@@ -155,7 +155,7 @@ const Form = props => {
         </div>
       </div>
       <button type="submit" className="btn btn-primary">
-        Salvar
+        {props.game.id ? "Alterar" : "Salvar"}
       </button>
     </form>
   );

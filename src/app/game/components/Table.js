@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "reactstrap";
+import "./styles.css";
 
 export default props => {
   return (
@@ -23,6 +24,22 @@ export default props => {
                 <td>{game.platform}</td>
                 <td>{game.price}</td>
                 <td>{game.developer.name}</td>
+                <td>
+                  <button
+                    className="btn btn-primary btn-sm delete-button"
+                    onClick={() => props.handleUpdate(game.id)}
+                  >
+                    ✓
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm delete-button"
+                    onClick={() => props.handleRemove(game.id)}
+                  >
+                    x
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>

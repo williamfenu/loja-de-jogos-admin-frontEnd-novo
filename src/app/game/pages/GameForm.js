@@ -14,7 +14,7 @@ const uploadRest = rest("upload/cover");
 const screenShotsRest = rest("upload/screenshots");
 const gameRest = rest("games");
 
-const GameForm = () => {
+const GameForm = props => {
   const developers = useSelector(state => state.developers);
   const [screenshotsImages, setScreenshots] = useState([]);
   const [game, setGame] = useState({
@@ -47,7 +47,12 @@ const GameForm = () => {
         })
       )
       .catch(error => console.log(error));
-  }, [dispatch]);
+    if (props.match.params.id) {
+      gameRest.get(props.match.params.id).then(resp => {
+        setGame({ ...resp });
+      });
+    }
+  }, [dispatch, props.match.params.id]);
 
   function toggleModal(event) {
     event.preventDefault();
