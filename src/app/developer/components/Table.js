@@ -14,10 +14,18 @@ export default props => {
         <tbody>
           {props.developers &&
             props.developers.length > 0 &&
-            props.developers.map((developers, index) => (
-              <tr key={developers.id}>
+            props.developers.map((developer, index) => (
+              <tr key={developer.id}>
                 <th scope="row">{index + 1}</th>
-                <td>{developers.name}</td>
+                <td>{developer.name}</td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm delete-button"
+                    onClick={() => props.handleRemove(developer.id)}
+                  >
+                    x
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>
