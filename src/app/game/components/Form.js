@@ -64,6 +64,7 @@ const platforms = [
 ];
 
 const Form = props => {
+  console.log(props.game.releaseDate);
   const { register, handleSubmit } = useForm();
   return (
     <form onSubmit={handleSubmit(props.onSubmit)} encType="multipart/form-data">

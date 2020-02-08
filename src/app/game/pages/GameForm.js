@@ -49,7 +49,15 @@ const GameForm = props => {
       .catch(error => console.log(error));
     if (props.match.params.id) {
       gameRest.get(props.match.params.id).then(resp => {
-        setGame({ ...resp });
+        setGame({
+          ...resp,
+          releaseDate:
+            resp.releaseDate.year +
+            "-" +
+            ("0" + resp.releaseDate.day).slice(-2) +
+            "-" +
+            ("0" + resp.releaseDate.month).slice(-2)
+        });
       });
     }
   }, [dispatch, props.match.params.id]);

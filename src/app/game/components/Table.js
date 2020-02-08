@@ -22,7 +22,12 @@ export default props => {
                 <th scope="row">{index + 1}</th>
                 <td>{game.name}</td>
                 <td>{game.platform}</td>
-                <td>{game.price}</td>
+                <td>
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                  }).format(game.price)}
+                </td>
                 <td>{game.developer.name}</td>
                 <td>
                   <button

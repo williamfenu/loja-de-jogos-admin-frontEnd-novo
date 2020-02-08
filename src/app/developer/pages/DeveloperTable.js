@@ -23,6 +23,17 @@ const DeveloperTable = () => {
 
   const handleRemove = async id => {
     await developerRest.delete(id);
+    getDevelopers();
+  };
+
+  const getDevelopers = () => {
+    developerRest
+      .get()
+      .then(resp => {
+        dispatch({ type: "SAVE_DEVELOPERS", developers: resp });
+        setLoading(false);
+      })
+      .catch(error => console.log(error));
   };
 
   return (
